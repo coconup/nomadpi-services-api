@@ -7,7 +7,9 @@ const { loadManifest, getAllServicesManifests, validateAllManifests } = require(
 const app = express();
 const port = process.env.PORT || 3000;
 
-const corsWhitelist = ['http://raspberrypi.local:3000', 'http://localhost:3000']
+if(!process.env.ALLOWED_ORIGINS) throw `\`$ALLOWED_ORIGINS\` is not set`;
+
+const allowedOrigins = (process.env.ALLOWED_ORIGINS || '').split(',').filter(s => !!s).map(s => s.trim());
 
 // Migration configuration
 const knexConfig = require('./knexfile');
@@ -19,7 +21,7 @@ knexInstance.migrate.latest().then(() => {
 
   // Add headers before the routes are defined
   app.use(function (req, res, next) {
-    if (corsWhitelist.includes(req.headers.origin)) {
+    if (allowedOrigins.includes(req.headers.origin)) {
       res.setHeader('Access-Control-Allow-Origin', req.headers.origin);
     } else {
       console.log(`Rejected request from origin \`${req.headers.origin}\``)
