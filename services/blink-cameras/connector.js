@@ -24,12 +24,12 @@ class Connector extends BaseConnector {
   }
 
   async getCredentials(res) {
-    const credentials = await fetchDecryptedCredentials(this.serviceId)[0];
+    const credentials = await fetchDecryptedCredentials(this.serviceId);
 
-    if(!credentials) {
+    if(!credentials[0]) {
       res.status(401).json({ message: 'missing_credentials' });
     } else {
-      return credentials.value;
+      return credentials[0].value;
     }
   }
 
