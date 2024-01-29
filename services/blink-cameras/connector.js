@@ -19,7 +19,7 @@ class Connector extends BaseConnector {
     }
   }
 
-  getBaseUrl({ tier='prod' }) {
+  getBaseUrl(tier='prod') {
     return `https://rest-${tier}.immedia-semi.com`;
   }
 
