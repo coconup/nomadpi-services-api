@@ -89,6 +89,10 @@ knexInstance.migrate.latest().then(() => {
         ...req.query
     };
 
+    console.log('req.query', req.query)
+    console.log('req.params', req.params)
+    console.log('req.body', req.body)
+
     // Perform actions based on the service type and path
     await connector.handlePath(path, requestData, res);
   });
