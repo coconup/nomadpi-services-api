@@ -3,16 +3,19 @@ const { postRequest, getRequest } = require('../../utils/httpClient');
 const { createOrUpdateCredentials, fetchDecryptedCredentials } = require('../../credentials');
 
 class Connector extends BaseConnector {
-  async handlePath(path, requestBody, res) {
+  async handlePath(path, requestData, res) {
     switch (path) {
       case 'login':
-        return this.login(requestBody, res);
+        return this.login(requestData, res);
 
       case 'login-verify':
-        return this.loginVerify(requestBody, res);
+        return this.loginVerify(requestData, res);
 
       case 'homescreen':
         return this.getHomescreen(res);
+
+      case 'live-stream':
+        return this.getLivestream(requestData, res);
 
       default:
         throw new Error('Invalid path');
@@ -93,6 +96,31 @@ class Connector extends BaseConnector {
       } = credentials;
 
       const url = `${this.getBaseUrl(tier)}/api/v3/accounts/${account_id}/homescreen`;
+      const headers = {
+        'TOKEN_AUTH': auth_token,
+      };
+
+      const responseData = await getRequest(url, headers);
+
+      if(responseData.error) {
+        return this.handleError(res, responseData.error)
+      } else {
+        res.json(responseData);
+      }
+    }
+  }
+
+  async getLivestream({ network_id, camera_id }, res) {
+    const credentials = await this.getCredentials(res);
+
+    if(credentials) {
+      const {
+        tier,
+        account_id,
+        auth_token
+      } = credentials;
+
+      const url = `${this.getBaseUrl(tier)}/api/v5/accounts/${account_id}/networks/${network_id}/cameras/${camera_id}/liveview`;
       const headers = {
         'TOKEN_AUTH': auth_token,
       };

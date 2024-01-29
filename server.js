@@ -84,8 +84,13 @@ knexInstance.migrate.latest().then(() => {
     const ConnectorClass = require(`./services/${serviceId}/connector`);
     const connector = new ConnectorClass();
 
+    const requestData = {
+        ...req.body,
+        ...req.query
+    };
+
     // Perform actions based on the service type and path
-    await connector.handlePath(path, req.body, res);
+    await connector.handlePath(path, requestData, res);
   });
 });
 
