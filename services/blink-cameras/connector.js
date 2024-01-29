@@ -3,16 +3,16 @@ const { postRequest, getRequest } = require('../../utils/httpClient');
 const { createOrUpdateCredentials, fetchDecryptedCredentials } = require('../../credentials');
 
 class Connector extends BaseConnector {
-  async handlePath(path, requestBody) {
+  async handlePath(path, requestBody, res) {
     switch (path) {
       case 'login':
-        return this.login(requestBody);
+        return this.login(requestBody, res);
 
       case 'login-verify':
-        return this.loginVerify(requestBody);
+        return this.loginVerify(requestBody, res);
 
       case 'homescreen':
-        return this.getHomescreen();
+        return this.getHomescreen(res);
 
       default:
         throw new Error('Invalid path');
@@ -34,7 +34,7 @@ class Connector extends BaseConnector {
   }
 
   async login({ email, password }, res) {
-    const loginUrl = `${getBaseUrl()}/api/v5/account/login`;
+    const loginUrl = `${this.getBaseUrl()}/api/v5/account/login`;
     const loginData = { email, password };
 
     const responseData = await postRequest(loginUrl, loginData, null);
@@ -47,7 +47,7 @@ class Connector extends BaseConnector {
   }
 
   async loginVerify({ tier, account_id, client_id, pin, auth_token }, res) {
-    const loginVerifyUrl = `${getBaseUrl(tier)}/api/v4/account/${account_id}/client/${client_id}/pin/verify`;
+    const loginVerifyUrl = `${this.getBaseUrl(tier)}/api/v4/account/${account_id}/client/${client_id}/pin/verify`;
 
     const headers = {
       'TOKEN_AUTH': auth_token,
@@ -92,7 +92,7 @@ class Connector extends BaseConnector {
         auth_token
       } = credentials;
 
-      const url = `${getBaseUrl(tier)}/api/v3/accounts/${account_id}/homescreen`;
+      const url = `${this.getBaseUrl(tier)}/api/v3/accounts/${account_id}/homescreen`;
       const headers = {
         'TOKEN_AUTH': auth_token,
       };
