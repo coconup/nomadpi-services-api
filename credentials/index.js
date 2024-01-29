@@ -35,12 +35,10 @@ async function fetchDecryptedCredentials(serviceId) {
       return null; // No credentials found for the given service_id
     }
 
-    // Decrypt the 'value' field
-    credentials.forEach((credential) => {
-      credential.value = decryptData(credential.value);
-    });
-
-    return credentials;
+    return credentials.map(credential => ({
+      ...credential,
+      value: JSON.parse(decryptData(credential.value))
+    }));
   } catch (error) {
     throw new Error('Error fetching decrypted credentials');
   }
