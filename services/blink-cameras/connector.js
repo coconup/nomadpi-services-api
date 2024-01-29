@@ -90,7 +90,7 @@ class Connector extends BaseConnector {
         tier,
         account_id,
         auth_token
-      } = credentials;
+      } = credentials.value;
 
       const url = `${this.getBaseUrl(tier)}/api/v3/accounts/${account_id}/homescreen`;
       const headers = {
@@ -113,7 +113,7 @@ class Connector extends BaseConnector {
     if(credentials) {
       const url = `network/${network_id}/camera/${camera_id}/thumbnail`;
       const headers = {
-        'TOKEN_AUTH': credentials.auth_token,
+        'TOKEN_AUTH': credentials.value.auth_token,
       };
 
       const responseData = await postRequest(url, {}, headers);
