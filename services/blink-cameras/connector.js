@@ -83,7 +83,7 @@ class Connector extends BaseConnector {
   }
 
   async getHomescreen(res) {
-    const credentials = await getCredentials(res);
+    const credentials = await this.getCredentials(res);
 
     if(credentials) {
       const {
@@ -108,7 +108,7 @@ class Connector extends BaseConnector {
   }
 
   async refreshThumbnail({ network_id, camera_id }, res) {
-    const credentials = await getCredentials(res);
+    const credentials = await this.getCredentials(res);
 
     if(credentials) {
       const url = `network/${network_id}/camera/${camera_id}/thumbnail`;
