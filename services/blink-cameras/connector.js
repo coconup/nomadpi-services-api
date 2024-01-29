@@ -120,7 +120,7 @@ class Connector extends BaseConnector {
         auth_token
       } = credentials;
 
-      const url = `${this.getBaseUrl(tier)}/api/v5/accounts/${account_id}/networks/${network_id}/cameras/${camera_id}/liveview`;
+      const url = `${this.getBaseUrl()}/api/v5/accounts/${account_id}/networks/${network_id}/cameras/${camera_id}/liveview`;
       const headers = {
         'TOKEN_AUTH': auth_token,
       };
