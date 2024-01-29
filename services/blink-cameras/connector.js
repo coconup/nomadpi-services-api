@@ -121,6 +121,9 @@ class Connector extends BaseConnector {
       } = credentials;
 
       const url = `${this.getBaseUrl()}/api/v5/accounts/${account_id}/networks/${network_id}/cameras/${camera_id}/liveview`;
+
+      console.log('live stream url', url);
+
       const headers = {
         'TOKEN_AUTH': auth_token,
       };
