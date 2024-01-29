@@ -24,13 +24,15 @@ class Connector extends BaseConnector {
   }
 
   async getCredentials(res) {
-    const credentials = await fetchDecryptedCredentials(this.serviceId)[0];
+    const credentials = await fetchDecryptedCredentials(this.serviceId);
+
+    console.log('Blink credentials', credentials)
 
     if(!credentials) {
       res.status(401).json({ message: 'missing_credentials' });
     }
 
-    return credentials.value;
+    return credentials;
   }
 
   async login({ email, password }, res) {
@@ -84,8 +86,6 @@ class Connector extends BaseConnector {
 
   async getHomescreen(res) {
     const credentials = await this.getCredentials(res);
-
-    console.log('Blink credentials', credentials)
 
     if(credentials) {
       const {
