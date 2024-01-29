@@ -128,7 +128,7 @@ class Connector extends BaseConnector {
         'TOKEN_AUTH': auth_token,
       };
 
-      const responseData = await getRequest(url, headers);
+      const responseData = await postRequest(url, { intent: 'liveview', motion_event_start_time: '' }, headers);
 
       if(responseData.error) {
         return this.handleError(res, responseData.error)
