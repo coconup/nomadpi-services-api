@@ -11,6 +11,9 @@ class Connector extends BaseConnector {
       case 'login-verify':
         return this.loginVerify(requestBody);
 
+      case 'homescreen':
+        return this.getHomescreen();
+
       default:
         throw new Error('Invalid path');
     }
