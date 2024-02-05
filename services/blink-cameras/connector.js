@@ -26,16 +26,6 @@ class Connector extends BaseConnector {
     return `https://rest-${tier}.immedia-semi.com`;
   }
 
-  async getCredentials(res) {
-    const credentials = await fetchDecryptedCredentials(this.serviceId);
-
-    if(!credentials[0]) {
-      res.status(401).json({ message: 'missing_credentials' });
-    } else {
-      return credentials[0].value;
-    }
-  }
-
   async login({ email, password }, res) {
     const loginUrl = `${this.getBaseUrl()}/api/v5/account/login`;
     const loginData = { email, password };

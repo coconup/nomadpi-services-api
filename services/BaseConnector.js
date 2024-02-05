@@ -14,17 +14,27 @@ class BaseConnector {
     } catch (error) {
       throw error;
     }
-  }
+  };
 
   async getServiceName() {
     const manifest = await loadManifest(this.serviceId);
     const { service_name } = manifest;
     return service_name;
-  }
+  };
 
   async handlePath(path, requestBody, res) {
     throw `handlePath not implemented`
-  }
+  };
+
+  async getCredentials(res) {
+    const credentials = await fetchDecryptedCredentials(this.serviceId);
+
+    if(!credentials[0]) {
+      res.status(401).json({ message: 'missing_credentials' });
+    } else {
+      return credentials[0].value;
+    }
+  };
 
   handleError(res, error) {
     const {
@@ -35,7 +45,7 @@ class BaseConnector {
     if(!status || !data) throw `Invalid error object`;
 
     res.status(status).json(data);
-  }
+  };
 }
 
 module.exports = BaseConnector;
