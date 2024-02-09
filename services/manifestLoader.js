@@ -1,11 +1,8 @@
 const yaml = require('yaml');
 const _fs = require('fs');
-const path = require('path');
-import { findUp } from 'find-up';
+const projectRoot = require('app-root-path');
 
 const fs = _fs.promises;
-
-const projectRoot = path.dirname(findUp.sync('package.json'));
 
 async function loadManifest(service_id) {
   try {

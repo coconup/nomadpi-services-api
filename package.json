@@ -1,6 +1,5 @@
 {
   "name": "vanpi-services-api",
-  "type": "module",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
@@ -11,9 +10,9 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "app-root-path": "^3.1.0",
     "axios": "^1.6.7",
     "express": "^4.18.2",
-    "find-up": "^7.0.0",
     "knex": "^3.1.0",
     "mysql2": "^3.7.0",
     "yaml": "^2.3.4"
