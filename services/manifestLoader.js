@@ -1,7 +1,7 @@
 const yaml = require('yaml');
 const _fs = require('fs');
 const path = require('path');
-const findUp = require('find-up');
+const { findUp } = require('find-up');
 
 const fs = _fs.promises;
 
