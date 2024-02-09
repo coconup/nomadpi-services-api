@@ -22,7 +22,7 @@ class Connector extends BaseConnector {
     if(credentials) {
       const { api_key } = credentials;
 
-      let url = `${this.getBaseUrl(tier)}/whatsapp.php`;
+      let url = `${this.getBaseUrl()}/whatsapp.php`;
 
       const params = new URLSearchParams();
       params.append("phone", phone);
