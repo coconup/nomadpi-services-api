@@ -30,7 +30,7 @@ class BaseConnector {
   async getCredentials(res) {
     const credentials = await fetchDecryptedCredentials(this.serviceId);
 
-    if(!credentials[0]) {
+    if(!credentials) {
       res.status(401).json({ message: 'missing_credentials' });
     } else {
       return credentials[0].value;

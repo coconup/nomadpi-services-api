@@ -29,6 +29,8 @@ function decryptData(encryptedData) {
 async function fetchDecryptedCredentials(serviceId) {
   try {
     const connection = await getConnection();
+
+    console.log(`fetching credentials`, serviceId)
     const [credentials] = await connection.query('SELECT * FROM credentials WHERE service_id = ?', [serviceId]);
 
     if (credentials.length === 0) {
