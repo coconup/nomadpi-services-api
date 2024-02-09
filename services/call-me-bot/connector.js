@@ -31,6 +31,8 @@ class Connector extends BaseConnector {
       
       url.search = params.toString();
 
+      console.log('request URL', url.toString())
+
       const responseData = await getRequest(url.toString());
 
       if(responseData.error) {
