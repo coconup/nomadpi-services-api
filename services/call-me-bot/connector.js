@@ -25,6 +25,7 @@ class Connector extends BaseConnector {
       let url = new URL(`${this.getBaseUrl()}/whatsapp.php`);
 
       const params = new URLSearchParams();
+      params.append("apikey", api_key);
       params.append("phone", phone);
       params.append("text", text);
       
