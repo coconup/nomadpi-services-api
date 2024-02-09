@@ -22,7 +22,7 @@ class Connector extends BaseConnector {
     if(credentials) {
       const { api_key } = credentials;
 
-      let url = `${this.getBaseUrl()}/whatsapp.php`;
+      let url = new URL(`${this.getBaseUrl()}/whatsapp.php`);
 
       const params = new URLSearchParams();
       params.append("phone", phone);
@@ -30,7 +30,7 @@ class Connector extends BaseConnector {
       
       url.search = params.toString();
 
-      const responseData = await getRequest(url);
+      const responseData = await getRequest(url.toString());
 
       if(responseData.error) {
         return this.handleError(res, responseData.error)
