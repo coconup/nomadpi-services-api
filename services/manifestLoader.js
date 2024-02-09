@@ -1,11 +1,15 @@
 const yaml = require('yaml');
 const _fs = require('fs');
+const path = require('path');
+const findUp = require('find-up');
 
 const fs = _fs.promises;
 
+const projectRoot = path.dirname(findUp.sync('package.json'));
+
 async function loadManifest(service_id) {
   try {
-    const manifestPath = `./${service_id}/manifest.yaml`;
+    const manifestPath = `${projectRoot}/services/${service_id}/manifest.yaml`;
     const manifestContent = await fs.readFile(manifestPath, 'utf-8');
     const manifest = yaml.parse(manifestContent);
     return {
@@ -24,7 +28,7 @@ async function getAllServicesManifests(options) {
     groupResult=true
   } = options || {};
 
-  const servicesFolders = (await fs.readdir('./', { withFileTypes: true })).filter(dirent => dirent.isDirectory());
+  const servicesFolders = (await fs.readdir(`${projectRoot}/services`, { withFileTypes: true })).filter(dirent => dirent.isDirectory());
 
   const servicesManifests = await Promise.all(
     servicesFolders.map(async ({name: service_id}) => {
