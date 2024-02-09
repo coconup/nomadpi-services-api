@@ -1,6 +1,5 @@
 const BaseConnector = require('../BaseConnector');
 const { postRequest, getRequest } = require('../../utils/httpClient');
-const { createOrUpdateCredentials, fetchDecryptedCredentials } = require('../../credentials');
 
 class Connector extends BaseConnector {
   async handlePath(path, requestData, res) {

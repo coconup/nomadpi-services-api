@@ -1,5 +1,6 @@
 const path = require('path');
 const { loadManifest } = require('./manifestLoader');
+const { fetchDecryptedCredentials } = require('../credentials');
 
 class BaseConnector {
   get serviceId() {
