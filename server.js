@@ -51,8 +51,6 @@ knexInstance.migrate.latest().then(() => {
   // Function to dispatch requests to the appropriate service
   app.get('/services/:serviceId', async (req, res) => {
     const serviceId = req.params.serviceId;
-
-    console.log('serviceId', serviceId)
     
     try {
       const manifest = await loadManifest(serviceId);
@@ -88,10 +86,6 @@ knexInstance.migrate.latest().then(() => {
         ...req.body,
         ...req.query
     };
-
-    console.log('req.query', req.query)
-    console.log('req.params', req.params)
-    console.log('req.body', req.body)
 
     // Perform actions based on the service type and path
     await connector.handlePath(path, requestData, res);
