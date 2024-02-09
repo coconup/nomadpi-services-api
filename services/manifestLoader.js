@@ -5,7 +5,7 @@ const fs = _fs.promises;
 
 async function loadManifest(service_id) {
   try {
-    const manifestPath = `./services/${service_id}/manifest.yaml`;
+    const manifestPath = `./${service_id}/manifest.yaml`;
     const manifestContent = await fs.readFile(manifestPath, 'utf-8');
     const manifest = yaml.parse(manifestContent);
     return {
@@ -24,7 +24,7 @@ async function getAllServicesManifests(options) {
     groupResult=true
   } = options || {};
 
-  const servicesFolders = (await fs.readdir('./services', { withFileTypes: true })).filter(dirent => dirent.isDirectory());
+  const servicesFolders = (await fs.readdir('./', { withFileTypes: true })).filter(dirent => dirent.isDirectory());
 
   const servicesManifests = await Promise.all(
     servicesFolders.map(async ({name: service_id}) => {
