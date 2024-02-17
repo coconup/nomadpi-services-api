@@ -1,11 +1,15 @@
 const express = require('express');
 const crypto = require('crypto');
+const axios = require('axios');
 
 const { getConnection } = require('../utils/dbConnection');
 
 const router = express.Router();
 
 if(!process.env.ENCRYPTION_KEY) throw `\`$ENCRYPTION_KEY\` is not set`;
+if(!process.env.CORE_API_ROOT_URL) throw `\`$SERVICES_API_ROOT_URL\` is not set`;
+
+const coreApiBaseUrl = `${process.env.CORE_API_ROOT_URL}/api/v1`;
 
 // Function to encrypt data using a key from env vars
 function encryptData(data) {
@@ -43,33 +47,6 @@ async function fetchDecryptedCredentials(serviceId) {
     }));
   } catch (error) {
     throw new Error('Error fetching decrypted credentials');
-  }
-}
-
-// Function to create or update credentials based on service_id
-async function createOrUpdateCredentials({service_id, name, value}) {
-  try {
-    const connection = await getConnection();
-
-    // Check if credentials already exist for the given service_id
-    const [existingCredentials] = await connection.query('SELECT * FROM credentials WHERE service_id = ?', [service_id]);
-
-    if (existingCredentials.length === 0) {
-      // If no credentials found, create new credentials
-      const encryptedValue = encryptData(value);
-      await connection.query('INSERT INTO credentials (name, service_id, value) VALUES (?, ?, ?)', [
-        name,
-        service_id,
-        encryptedValue,
-      ]);
-    } else {
-      // If credentials exist, update the existing ones
-      const encryptedValue = encryptData(value);
-      await connection.query('UPDATE credentials SET name = ?, value = ? WHERE service_id = ?', [name, encryptedValue, service_id]);
-    }
-  } catch (error) {
-    console.log(error);
-    throw new Error('Error creating or updating credentials');
   }
 }
 
@@ -116,6 +93,8 @@ router.post('/credentials', async (req, res) => {
       encryptedValue,
     ]);
 
+    await axios.post(`${coreApiBaseUrl}/credentials/${service_id}/refresh`);
+
     res.status(201).json({ message: 'Credential created successfully' });
   } catch (error) {
     res.status(500).json({ error: 'Internal Server Error' });
@@ -143,6 +122,8 @@ router.put('/credentials/:id', async (req, res) => {
       credentialId,
     ]);
 
+    await axios.post(`${coreApiBaseUrl}/credentials/${service_id}/refresh`);
+
     res.json({ message: 'Credential updated successfully' });
   } catch (error) {
     res.status(500).json({ error: 'Internal Server Error' });
@@ -163,4 +144,4 @@ router.delete('/credentials/:id', async (req, res) => {
   }
 });
 
-module.exports = { router, fetchDecryptedCredentials, createOrUpdateCredentials };
+module.exports = { router, fetchDecryptedCredentials };
