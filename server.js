@@ -7,10 +7,6 @@ const { loadManifest, getAllServicesManifests, validateAllManifests } = require(
 const app = express();
 const port = process.env.PORT || 3000;
 
-// if(!process.env.ALLOWED_ORIGINS) throw `\`$ALLOWED_ORIGINS\` is not set`;
-
-// const allowedOrigins = (process.env.ALLOWED_ORIGINS || '').split(',').filter(s => !!s).map(s => s.trim());
-
 // Migration configuration
 const knexConfig = require('./knexfile');
 const knexInstance = knex(knexConfig.development);
@@ -18,21 +14,6 @@ const knexInstance = knex(knexConfig.development);
 // Run migrations
 knexInstance.migrate.latest().then(() => {
   console.log('Migrations ran successfully.');
-
-  // Add headers before the routes are defined
-  // app.use(function (req, res, next) {
-  //   if (allowedOrigins.includes(req.headers.origin)) {
-  //     res.setHeader('Access-Control-Allow-Origin', req.headers.origin);
-  //   } else {
-  //     console.log(`Rejected request from origin \`${req.headers.origin}\``)
-  //   }
-
-  //   res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
-  //   res.setHeader('Access-Control-Allow-Headers', 'X-Requested-With, Content-Type,Accept');
-  //   res.setHeader('Access-Control-Allow-Credentials', true);
-
-  //   next();
-  // });
 
   app.use(express.json());
   app.use(credentialsController);
