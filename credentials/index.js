@@ -91,7 +91,7 @@ router.get('/credentials/service/:service_id', async (req, res) => {
   try {
     const connection = await getConnection();
     const credentials = await fetchDecryptedCredentials(serviceId);
-    res.json(credentials);
+    res.json(credentials[0]);
   } catch (error) {
     res.status(500).json({ error: 'Internal Server Error' });
   }
