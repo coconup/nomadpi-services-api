@@ -97,6 +97,7 @@ router.post('/credentials', async (req, res) => {
 
     res.status(201).json({ message: 'Credential created successfully' });
   } catch (error) {
+    console.log(error)
     res.status(500).json({ error: 'Internal Server Error' });
   }
 });
@@ -126,6 +127,7 @@ router.put('/credentials/:id', async (req, res) => {
 
     res.json({ message: 'Credential updated successfully' });
   } catch (error) {
+    console.log(error)
     res.status(500).json({ error: 'Internal Server Error' });
   }
 });
