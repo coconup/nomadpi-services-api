@@ -78,7 +78,8 @@ router.get('/credentials', async (req, res) => {
   try {
     const connection = await getConnection();
     const [credentials] = await connection.query('SELECT * FROM credentials');
-    const result = credentials.map(({value, ...rest}) => rest);
+    // const result = credentials.map(({value, ...rest}) => rest);
+    const result = credentials;
     res.json(result);
   } catch (error) {
     res.status(500).json({ error: 'Internal Server Error' });
