@@ -78,9 +78,20 @@ router.get('/credentials', async (req, res) => {
   try {
     const connection = await getConnection();
     const [credentials] = await connection.query('SELECT * FROM credentials');
-    // const result = credentials.map(({value, ...rest}) => rest);
-    const result = credentials;
+    const result = credentials.map(({value, ...rest}) => rest);
     res.json(result);
+  } catch (error) {
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+});
+
+// Endpoint to get decrypted credentials
+router.get('/credentials/service/:service_id', async (req, res) => {
+  const serviceId = req.params.service_id;
+  try {
+    const connection = await getConnection();
+    const credentials = fetchDecryptedCredentials(serviceId);
+    res.json(credentials);
   } catch (error) {
     res.status(500).json({ error: 'Internal Server Error' });
   }
