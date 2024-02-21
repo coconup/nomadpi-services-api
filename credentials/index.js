@@ -38,7 +38,7 @@ async function fetchDecryptedCredentials(serviceId) {
     const [credentials] = await connection.query('SELECT * FROM credentials WHERE service_id = ?', [serviceId]);
 
     if (credentials.length === 0) {
-      return null; // No credentials found for the given service_id
+      return []; // No credentials found for the given service_id
     }
 
     return credentials.map(credential => ({
