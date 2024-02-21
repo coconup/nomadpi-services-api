@@ -8,7 +8,7 @@ module.exports = {
       database: process.env.DB_NAME,
     },
     migrations: {
-      tableName: 'knex_migrations_vanpi_services_api',
+      tableName: 'knex_migrations_nomadpi_services_api',
       directory: './migrations',
     },
   },
